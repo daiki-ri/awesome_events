@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
-  resources :events
-
   resource :user do
       get 'retire'
   end
+
+  resources :events do
+      resources :user_events
+  end
+
 
   get 'welcome/index'
   get '/auth/:provider/callback' => 'sessions#create'

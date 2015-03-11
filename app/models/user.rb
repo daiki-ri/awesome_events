@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
     before_destroy :check_all_events_finished
     has_many :created_events, class_name: 'Event', foreign_key: :owner_id
+    has_many :user_events
     def self.find_or_create_from_auth_hash(auth_hash)
         provider = auth_hash[:provider]
         if provider == 'facebook'
