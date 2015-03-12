@@ -1,27 +1,5 @@
 == イベント管理アプリ
 
 Twitter or Facebookでログインすると、イベントを作成可能
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+現状、作成、編集、削除のみ使用可
+参加機能に関しては、作成中
