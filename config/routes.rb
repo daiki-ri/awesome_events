@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   resource :user do
       get 'retire'
   end
+  resources :users do
+      get 'owner_events'
+  end
 
   resources :events do
       resources :user_events

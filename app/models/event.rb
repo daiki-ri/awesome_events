@@ -18,9 +18,16 @@ class Event < ActiveRecord::Base
         owner_id == user_id
     end
 
+    def end?
+        if end_time < Time.zone.now
+            true
+        end
+    end
+
     def self.ransackable_attributes(auth_object = nil)
         %w(name start_time)
     end
+
     def self.ransackable_associations(auth_object = nil)
         []
     end

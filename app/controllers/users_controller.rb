@@ -1,6 +1,17 @@
 class UsersController < ApplicationController
     before_action :authenticate
 
+    def show 
+        @user = User.find(params[:id])
+
+        @user_events = @user.events.page(params[:page]).per(PER).order(:start_time).reverse_order
+    end
+
+    def owner_events
+        @user = User.find(params[:user_id])
+        @user_events = @user.created_events.page(params[:page]).per(PER).order(:start_time).reverse_order
+    end
+
     def retire
     end
 
