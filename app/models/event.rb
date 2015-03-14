@@ -1,6 +1,9 @@
 class Event < ActiveRecord::Base
     belongs_to :owner, class_name: 'User'
     has_many :user_events, dependent: :destroy
+
+    mount_uploader :event_image, EventImageUploader
+
     validates :name, length: { maximum: 50 }, presence: true
     validates :place, length: { maximum: 100 }, presence: true
     validates :content, length: { maximum: 2000 }, presence: true
@@ -13,6 +16,13 @@ class Event < ActiveRecord::Base
         #return false unless user
         #owner_id == user.id
         owner_id == user_id
+    end
+
+    def self.ransackable_attributes(auth_object = nil)
+        %w(name start_time)
+    end
+    def self.ransackable_associations(auth_object = nil)
+        []
     end
 
     private
