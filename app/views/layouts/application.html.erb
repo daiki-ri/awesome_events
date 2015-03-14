@@ -9,7 +9,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-    <header class="navbar navbar-default" role="navigation">
+    <header class="navbar navbar-inverse" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -21,8 +21,11 @@
             <%= link_to 'EventManages', root_path, class: 'navbar-brand' %>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li><%= link_to 'イベント作成', new_event_path %></li>
+                <li><%= link_to 'イベント管理', new_event_path %></li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><%= link_to 'イベントを作成する', new_event_path %></li>
                 <% if logged_in? %>
                     <li><%= link_to '退会する', retire_user_path %></li>
                     <li><%= link_to 'ログアウト', logout_path %></li>

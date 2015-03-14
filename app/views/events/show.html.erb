@@ -51,9 +51,11 @@
         </div>
     </div>
     <div class="col-md-4">
+        <% if current_user %>
         <% if @event.created_by?(current_user.id) %>
             <%= link_to 'イベントを編集する', edit_event_path(@event), class: 'btn btn-info btn-lg btn-block' %>
             <%= link_to 'イベントを削除する', event_path(@event), class: 'btn btn-danger btn-lg btn-block', method: :delete, data: { confirm: '本当に削除しますか？' } %>
+        <% end %>
         <% end %>
         <% if @user_event %>
             <%= link_to '参加をキャンセルする', event_user_event_path(@event, @user_event), method: :delete, class: 'btn btn-warning btn-lg btn-block' %>
@@ -81,7 +83,7 @@
                 </div>
             </div>
         <% else %>
-            <%= link_to '参加する', new_event_ticket_path(@event), class: "btn btn-primary btn-lg btn-block" %>
+            <%= link_to '参加する', new_event_user_event_path(@event), class: "btn btn-primary btn-lg btn-block" %>
         <% end %>
         <hr>
         <div class="panel panel-default">
