@@ -16,6 +16,8 @@ class EventsController < ApplicationController
 
     def show
         @event = Event.find(params[:id])
+        @user_event = current_user && current_user.user_events.find_by(event_id: params[:id])
+        @user_events = @event.user_events.includes(:user).order(:created_at)
     end
 
     def edit
