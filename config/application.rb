@@ -28,5 +28,6 @@ module EventManages
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.i18n.default_locale = :ja
+    config.assets.paths << "vendor/assets/fonts" #<- 追加
   end
 end

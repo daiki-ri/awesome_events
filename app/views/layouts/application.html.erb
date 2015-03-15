@@ -23,7 +23,9 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-left">
                 <li><%= link_to 'イベント作成', new_event_path %></li>
-                <li><%= link_to 'イベント管理', '/users/'+ current_user.id.to_s %></li>
+                <% if current_user %>
+                    <li><%= link_to 'イベント管理', '/users/'+ current_user.id.to_s %></li>
+                <% end %>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <% if logged_in? %>

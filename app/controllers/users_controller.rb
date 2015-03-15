@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :authenticate
+    before_action :authenticate, except: [:show, :owner_events]
 
     def show 
         @user = User.find(params[:id])

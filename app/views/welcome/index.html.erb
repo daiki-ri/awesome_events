@@ -1,6 +1,6 @@
 <% now = Time.zone.now %>
 <div class="page-header">
-    <h1>イベント一覧</h1>
+    <h2>イベント一覧</h2>
 </div>
 <%= search_form_for(@q, url: root_path, class: 'well') do |f| %>
     <div class="form-group">
@@ -16,15 +16,32 @@
     <%= f.submit '検索', class: 'btn btn-default' %>
 <% end %>
 <div class="list-group">
+    <div class="row">
     <% @events.each do |event| %>
-        <%= link_to(event, class: 'list-group-item') do %>
-            <h4 class="list-group-item-heading">
-                <%= event.name %>
-            </h4>
-            <p class="list-group-item-text">
-            <%= event.start_time.strftime('%Y/%m/%d %H:%M') %> - <%= event.end_time.strftime('%Y/%m/%d %H:%M') %>
-            </p>
-        <% end %>
+            <div class="col-sm-5 col-md-3">
+                <div class="thumbnail">
+                    <%= link_to(event) do %>
+                        <% if event.event_image.url %>
+                            <%= image_tag event.event_image.url %>
+                        <% else %>
+                            <%= image_tag 'noimage.jpg'%>
+                        <% end %>
+                    <% end %>
+                    <div class="caption">
+                        <p><span class="glyphicon glyphicon-time"></span> <%= event.start_time.strftime('%Y/%m/%d') %></p>
+                        <h3>
+                            <%= event.name %>
+                        </h3>
+                        <p><span class="glyphicon glyphicon-user"aria-hidden="true"></span> <span><%= event.owner.nickname %></span>&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-map-marker" aria-hidden="true"><%= event.place %></span></p>
+                        <p>
+                    <%= link_to(event, class: 'btn btn-primary') do %>
+                        <span>イベント詳細を観る</span>
+                    <% end %>
+                        </p>
+                    </div>
+                </div>
+            </div>
     <% end %>
+    </div>
     <%= paginate @events %>
 </div>

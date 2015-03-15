@@ -1,7 +1,10 @@
 <div class="page-header">
-    <h1>
+    <h2>
         <%= @event.name %>
-    </h1>
+    </h2>
+    <% if @event.end? %>
+        <span class="label label-default">終了したイベントです</span>
+    <% end %>
 </div>
 <div class="row">
     <div class="col-md-8">
@@ -16,9 +19,11 @@
             </div>
             <div class="panel-body">
                 <% if @event.owner %>
-                    <%= link_to("https://twitter.com/#{@event.owner.nickname}") do %>
+                    <%#= link_to("https://twitter.com/#{@event.owner.nickname}") do %>
+                        <% owner_user_link = '/users/' + @event.owner.id.to_s %>
+                    <%= link_to(owner_user_link) do %>
                         <%= image_tag @event.owner.image_url %>
-                        <%= "@#{@event.owner.nickname}" %>
+                        <%= @event.owner.nickname %>
                     <% end %>
                 <% else %>
                     退会したユーザです
@@ -51,39 +56,41 @@
         </div>
     </div>
     <div class="col-md-4">
-        <% if current_user %>
-        <% if @event.created_by?(current_user.id) %>
-            <%= link_to 'イベントを編集する', edit_event_path(@event), class: 'btn btn-info btn-lg btn-block' %>
-            <%= link_to 'イベントを削除する', event_path(@event), class: 'btn btn-danger btn-lg btn-block', method: :delete, data: { confirm: '本当に削除しますか？' } %>
-        <% end %>
-        <% end %>
-        <% if @user_event %>
-            <%= link_to '参加をキャンセルする', event_user_event_path(@event, @user_event), method: :delete, class: 'btn btn-warning btn-lg btn-block' %>
-        <% elsif logged_in? %>
-            <button class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#createTicket">
-                参加する
-            </button>
-            <div class="modal fade" id="createTicket" tabindex="-1" role="dialog" aria-labelledby="dialogHeader" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="dialogHeader">参加コメント</h4>
+        <% if !@event.end? %>
+            <% if current_user %>
+                <% if @event.created_by?(current_user.id) %>
+                    <%= link_to 'イベントを編集する', edit_event_path(@event), class: 'btn btn-info btn-lg btn-block' %>
+                    <%= link_to 'イベントを削除する', event_path(@event), class: 'btn btn-danger btn-lg btn-block', method: :delete, data: { confirm: '本当に削除しますか？' } %>
+                <% end %>
+            <% end %>
+            <% if @user_event %>
+                <%= link_to '参加をキャンセルする', event_user_event_path(@event, @user_event), method: :delete, class: 'btn btn-warning btn-lg btn-block' %>
+            <% elsif logged_in? %>
+                <button class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#createTicket">
+                    参加する
+                </button>
+                <div class="modal fade" id="createTicket" tabindex="-1" role="dialog" aria-labelledby="dialogHeader" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="dialogHeader">参加コメント</h4>
+                            </div>
+                            <%= form_for(@event.user_events.build, url: event_user_events_path(@event), remote: true) do |f| %>
+                                <div class="modal-body">
+                                    <%= f.text_field :comment, class: 'form-control' %>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
+                                    <%= f.button '送信', class: 'btn btn-primary', data: { disable_with: '送信中…' } %>
+                                </div>
+                            <% end %>
                         </div>
-                        <%= form_for(@event.user_events.build, url: event_user_events_path(@event), remote: true) do |f| %>
-                            <div class="modal-body">
-                                <%= f.text_field :comment, class: 'form-control' %>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
-                                <%= f.button '送信', class: 'btn btn-primary', data: { disable_with: '送信中…' } %>
-                            </div>
-                        <% end %>
                     </div>
                 </div>
-            </div>
-        <% else %>
-            <%= link_to '参加する', new_event_user_event_path(@event), class: "btn btn-primary btn-lg btn-block" %>
+            <% else %>
+                <%= link_to '参加する', new_event_user_event_path(@event), class: "btn btn-primary btn-lg btn-block" %>
+            <% end %>
         <% end %>
         <hr>
         <div class="panel panel-default">
@@ -95,9 +102,10 @@
                     <% @user_events.each do |user_event| %>
                         <% if user_event.user %>
                             <li>
-                            <%= link_to(url_for_twitter(user_event.user)) do %>
+                             <% owner_user_link = '/users/' + user_event.user_id.to_s %>
+                            <%= link_to(owner_user_link) do %>
                                 <%= image_tag user_event.user.image_url, width: 20, height: 20 %>
-                                <%= "@#{user_event.user.nickname}" %>
+                                <%= user_event.user.nickname %>
                             <% end %>
                             <%= user_event.comment %>
                             </li>
