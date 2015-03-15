@@ -10,7 +10,7 @@
     <div class="col-md-8">
         <% if @event.event_image? %>
             <div class="thumbnail">
-                <%= image_tag @event.event_image.url %>
+                <%= image_tag @event.event_image.url, width:300,height:240 %>
             </div>
         <% end %>
         <div class="panel panel-default">
