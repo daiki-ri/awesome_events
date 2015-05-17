@@ -1,8 +1,8 @@
-== イベント管理アプリ
+#イベント管理アプリ(勉強用)
+パーフェクトRuby on Rails(http://goo.gl/vFH4k8)
+を参考にしたイベント管理アプリケーション
 
-Twitter or Facebookでログインできる
-1. イベント作成、編集、削除、表示機能
-2. イベント検索機能
-
-動作確認環境
-https://protected-citadel-3381.herokuapp.com/
+## 機能
+* Twitter or Facebookでログイン
+* イベント作成、編集、削除、表示
+* イベント検索
